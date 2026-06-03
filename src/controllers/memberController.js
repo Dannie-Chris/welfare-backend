@@ -55,20 +55,32 @@ export const getMembers = async (req, res) => {
 // ======================
 export const createMember = async (req, res) => {
   try {
-    const { name, email, phone, role } = req.body;
+    const { name, email, phone, role, password } = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        message: "name, email, and password are required",
+      });
+    }
 
     const member = await prisma.user.create({
       data: {
         name,
         email,
         phone,
+        password,
         role: role || "member",
       },
     });
 
     res.status(201).json(member);
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("CREATE MEMBER ERROR:", err);
+
+    res.status(500).json({
+      error: err.message,
+    });
   }
 };
 
