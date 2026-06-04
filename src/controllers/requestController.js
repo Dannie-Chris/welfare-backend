@@ -27,33 +27,28 @@ export const getRequests = async (req, res) => {
 // CREATE REQUEST
 export const createRequest = async (req, res) => {
   try {
-
     const {
-      title,
-      description,
+      requestType,
       amount,
+      reason,
+      priority,
       userId,
     } = req.body;
 
     const request = await prisma.welfareRequest.create({
       data: {
-        title,
-        description,
+        requestType,
         amount: Number(amount),
+        reason,
+        priority,
         userId: Number(userId),
       },
     });
 
     res.status(201).json(request);
-
-  } catch (err) {
-
-    console.log(err);
-
-    res.status(500).json({
-      error: err.message,
-    });
-
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to create request" });
   }
 };
 
