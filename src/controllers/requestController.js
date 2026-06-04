@@ -91,19 +91,4 @@ export const updateRequestStatus = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Failed to update status" });
   }
-};export const updateRequestStatus = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { status } = req.body;
-
-    const updated = await prisma.welfareRequest.update({
-      where: { id: Number(id) },
-      data: { status },
-    });
-
-    res.json(updated);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to update status" });
-  }
 };
