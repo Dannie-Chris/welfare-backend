@@ -41,7 +41,7 @@ export const createRequest = async (req, res) => {
         amount: Number(amount),
         reason,
         priority,
-         memberId: Number(memberId)
+        userId: Number(userId),
       },
     });
 

@@ -47,8 +47,9 @@ model Contribution {
 model WelfareRequest {
   id          Int      @id @default(autoincrement())
 
-   memberId    Int
-  member      Member @relation(fields: [memberId], references: [id])
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+
   requestType String
   amount      Float
   reason      String
