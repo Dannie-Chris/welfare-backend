@@ -25,7 +25,7 @@ export const getDashboardStats = async (req, res) => {
     // APPROVED REQUESTS
     const approvedRequests = await prisma.welfareRequest.count({
       where: {
-        status: "approved",
+        status: "Approved",
       },
     });
 
