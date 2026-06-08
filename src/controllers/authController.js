@@ -36,6 +36,16 @@ export const register = async (req, res) => {
         role: req.body.role || "member"
       }
     });
+    // LOG REGISTER ACTIVITY
+await prisma.activityLog.create({
+  data: {
+    action: "CREATE",
+    entityType: "User",
+    details: `${user.name} registered an account`,
+    userId: user.id,
+    ipAddress: req.ip,
+  },
+});
 
     return res.status(201).json({
       message: "User registered successfully",
@@ -79,6 +89,16 @@ export const login = async (req, res) => {
         message: "Invalid password"
       });
     }
+    // LOG LOGIN ACTIVITY
+await prisma.activityLog.create({
+  data: {
+    action: "LOGIN",
+    entityType: "User",
+    details: `${user.name} logged in`,
+    userId: user.id,
+    ipAddress: req.ip,
+  },
+});
 
     const token = jwt.sign(
       { id: user.id, role: user.role },

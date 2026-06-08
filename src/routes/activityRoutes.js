@@ -1,17 +1,15 @@
 import express from "express";
-
 import {
   getActivityLogs,
   createActivityLog,
-  deleteActivityLog,
 } from "../controllers/activityController.js";
 
 const router = express.Router();
 
+// GET ALL LOGS
 router.get("/", getActivityLogs);
 
+// OPTIONAL: CREATE LOG MANUALLY
 router.post("/", createActivityLog);
-
-router.delete("/:id", deleteActivityLog);
 
 export default router;

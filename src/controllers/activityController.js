@@ -1,9 +1,8 @@
 import prisma from "../config/prisma.js";
 
-// GET ALL LOGS
+// GET ALL ACTIVITY LOGS
 export const getActivityLogs = async (req, res) => {
   try {
-
     const logs = await prisma.activityLog.findMany({
       include: {
         user: true,
@@ -13,73 +12,33 @@ export const getActivityLogs = async (req, res) => {
       },
     });
 
-    res.json(logs);
-
+    return res.json(logs);
   } catch (err) {
-
-    res.status(500).json({
-      error: err.message,
+    return res.status(500).json({
+      message: err.message,
     });
-
   }
 };
 
-// CREATE LOG
+// CREATE LOG (optional manual use)
 export const createActivityLog = async (req, res) => {
   try {
-
-    const {
-      action,
-      entityType,
-      entityId,
-      details,
-      userId,
-      ipAddress,
-    } = req.body;
+    const { action, entityType, details, userId } = req.body;
 
     const log = await prisma.activityLog.create({
       data: {
         action,
         entityType,
-        entityId,
         details,
-        userId: Number(userId),
-        ipAddress,
+        userId,
+        ipAddress: req.ip,
       },
     });
 
-    res.status(201).json(log);
-
+    return res.status(201).json(log);
   } catch (err) {
-
-    res.status(500).json({
-      error: err.message,
+    return res.status(500).json({
+      message: err.message,
     });
-
-  }
-};
-
-// DELETE LOG
-export const deleteActivityLog = async (req, res) => {
-  try {
-
-    const { id } = req.params;
-
-    await prisma.activityLog.delete({
-      where: {
-        id: Number(id),
-      },
-    });
-
-    res.json({
-      message: "Log deleted",
-    });
-
-  } catch (err) {
-
-    res.status(500).json({
-      error: err.message,
-    });
-
   }
 };
