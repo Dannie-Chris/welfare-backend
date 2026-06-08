@@ -25,5 +25,5 @@ app.use("/api/reports", reportRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/activity-logs", activityRoutes);
+app.use("/api/activity", activityRoutes);
 export default app;
