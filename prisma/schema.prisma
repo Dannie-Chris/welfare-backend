@@ -8,68 +8,54 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  phone     String?
-  password  String
-  role      String   @default("member")
-
+  id            Int              @id @default(autoincrement())
+  name          String
+  email         String           @unique
+  phone         String?
+  password      String
+  role          String           @default("member")
+  createdAt     DateTime         @default(now())
+  activityLogs  ActivityLog[]
   contributions Contribution[]
   requests      WelfareRequest[]
-  activityLogs  ActivityLog[]   // ✅ ADD THIS LINE
-
-  createdAt DateTime @default(now())
 }
 
 model Contribution {
-  id        Int   @id @default(autoincrement())
-
-  // 🔥 RELATION (THIS IS KEY)
-  userId    Int
-  user      User  @relation(fields: [userId], references: [id])
-
-  month     String
-  year      Int
-
-  amount    Int
-  paymentStatus String @default("Pending")
-  paymentDate String?
-  paymentMethod String?
-  outstandingBalance Int @default(0)
-  totalContributions Int @default(0)
-
-  reference String?
-
-  createdAt DateTime @default(now())
+  id                 Int      @id @default(autoincrement())
+  userId             Int
+  month              String
+  year               Int
+  amount             Int
+  paymentStatus      String   @default("Pending")
+  paymentDate        String?
+  paymentMethod      String?
+  outstandingBalance Int      @default(0)
+  totalContributions Int      @default(0)
+  reference          String?
+  createdAt          DateTime @default(now())
+  user               User     @relation(fields: [userId], references: [id])
 }
 
 model WelfareRequest {
   id          Int      @id @default(autoincrement())
-
   userId      Int
-  user        User     @relation(fields: [userId], references: [id])
-
   requestType String
   amount      Float
   reason      String
   priority    String
   status      String   @default("Pending")
-
   createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
 }
+
 model ActivityLog {
-  id          Int      @id @default(autoincrement())
-
-  action      String
-  entityType  String
-  entityId    String?
-  details     String
-
-  userId      Int
-  user        User @relation(fields: [userId], references: [id])
-
-  ipAddress   String?
-
-  createdAt   DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  action     String
+  entityType String
+  entityId   String?
+  details    String
+  userId     Int
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
 }
