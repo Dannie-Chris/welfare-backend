@@ -59,3 +59,21 @@ model ActivityLog {
   createdAt  DateTime @default(now())
   user       User     @relation(fields: [userId], references: [id])
 }
+model Settings {
+  id Int @id @default(1)
+
+  // General Settings
+  welfareName String @default("Welfare Management System")
+  contributionAmount Int @default(500)
+  currency String @default("KSh")
+
+  // Theme
+  theme String @default("light")
+
+  // Notifications
+  emailNotifications Boolean @default(true)
+  smsNotifications Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
